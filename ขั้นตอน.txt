@@ -1,0 +1,6 @@
+- เพิ่ม  Models
+- เพิ่ม Css
+- Add SwaggerUI
+- ติดตั้ง packet => core , sql server , design
+- Add the DataContext
+- Seed Data
