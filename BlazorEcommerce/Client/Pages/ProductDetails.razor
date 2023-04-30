@@ -1,0 +1,45 @@
+﻿@page "/product/{id:int}"
+@inject IProductService ProductService;
+
+@if (Product == null)
+{
+    <span>@message</span>
+}
+else
+{
+    <div class="wedia">
+        <div class="wedia-img-wrapper mr-2">
+            <img class="media-img" src="@Product.ImageUrl" alt="@Product.Title" />
+        </div>
+        <div class="media-body">
+            <h2 class="md-0">@Product.Title</h2>
+            <p>@Product.Description</p>
+            <h4 class="price">
+                $@Product.Price
+            </h4>
+        </div>
+    </div>
+}
+
+@code {
+    private string message = string.Empty;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private Product? Product = null;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        message = "Loading product...";
+        var result = await ProductService.GetProduct(Id);
+        if (!result.Success)
+        {
+            message = result.Message;
+        }
+        else
+        {
+            Product = result.Data;
+        }
+    }
+}

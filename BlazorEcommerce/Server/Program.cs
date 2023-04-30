@@ -3,6 +3,7 @@ global using Microsoft.EntityFrameworkCore;
 global using BlazorEcommerce.Server.Data;
 using BlazorEcommerce.Server.Data;
 using Microsoft.AspNetCore.ResponseCompression;
+using BlazorEcommerce.Server.Services.ProductService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +14,7 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddEndpointsApiExplorer(); // swagger 1
 builder.Services.AddSwaggerGen(); //swagger 2
-
+builder.Services.AddScoped<IProductServices, ProductServices>();
 var app = builder.Build();
 
 app.UseSwaggerUI();//swagger 3

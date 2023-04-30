@@ -4,3 +4,4 @@
 - ติดตั้ง packet => core , sql server , design
 - Add the DataContext
 - Seed Data
+- ลง Github
