@@ -1,9 +1,16 @@
+global using BlazorEcommerce.Server.Data;
+global using BlazorEcommerce.Server.Services.AddressService;
+global using BlazorEcommerce.Server.Services.AuthService;
+global using BlazorEcommerce.Server.Services.CartService;
+global using BlazorEcommerce.Server.Services.CategoryService;
+global using BlazorEcommerce.Server.Services.OrderService;
+global using BlazorEcommerce.Server.Services.PaymentService;
+global using BlazorEcommerce.Server.Services.ProductService;
+global using BlazorEcommerce.Server.Services.ProductTypeService;
 global using BlazorEcommerce.Shared;
 global using Microsoft.EntityFrameworkCore;
-global using BlazorEcommerce.Server.Data;
-using BlazorEcommerce.Server.Data;
-using Microsoft.AspNetCore.ResponseCompression;
-using BlazorEcommerce.Server.Services.ProductService;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +21,34 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddEndpointsApiExplorer(); // swagger 1
 builder.Services.AddSwaggerGen(); //swagger 2
-builder.Services.AddScoped<IProductServices, ProductServices>();
+
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>(); 
+builder.Services.AddScoped<IAddressService, AddressService>();
+builder.Services.AddScoped<IProductTypeService, ProductTypeService>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(obtions =>
+    {
+        obtions.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey =
+                new SymmetricSecurityKey(System.Text.Encoding.UTF8
+                .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
+
+// ตัวเข้าถึงบริบท
+builder.Services.AddHttpContextAccessor();
+
+
 var app = builder.Build();
 
 app.UseSwaggerUI();//swagger 3
@@ -39,6 +73,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+//------- ลงทะเบียนความปลอดภัย -------
+app.UseAuthentication();
+app.UseAuthorization();
+//-------------------------------
 
 app.MapRazorPages();
 app.MapControllers();

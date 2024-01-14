@@ -1,0 +1,13 @@
+เรื่องที่หน้าสนใจ
+- หนึ่งหาสามารถมีหลาย Page
+- Function การรีเฟรช
+- Function จัดการ Keyboard
+- datalist และการฝูกตัวแปล
+- การทำ Pagination ทั้ง Front และ Back
+- BlazorLocalStorage (Client)
+- EditForm การจักการ Form , Validate
+- Microsoft.AspNetCore.Components.Authorization (Client) ** ยาก
+- การใช้แอตทริบิวต์ [อนุญาต] บนไคลเอ็นต์ 
+- เทคนิคการทำ CartItem โดยจะก่อนเข้าสู่ระบบจะเก็บสินค้าไว้ใน Local หากเข้าสู่ระบบจะเก็ยไว้ใน Database
+- ตรรกะการจัดการ Product
+- การเก็บของมูลรูปภาพลง Database	
